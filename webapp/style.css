@@ -279,3 +279,267 @@ body{
 #quickExpenseCategory {
   min-height: 52px;
 }
+
+/* =========================================================
+   V3 FIXES: Add/Income readability + premium pages + date inputs
+   Safe frontend-only patch: no API/backend/database changes
+   ========================================================= */
+
+/* 1) Fix unreadable text in Add Operation / Income screen */
+#pageAdd,
+.premium-operation-form,
+.premium-operation-form h3,
+.premium-operation-form label,
+.premium-operation-form input,
+.premium-operation-form select,
+.premium-operation-form option,
+.premium-operation-form textarea {
+  color: #f8fafc !important;
+}
+
+.premium-operation-form input,
+.premium-operation-form select,
+.premium-operation-form textarea {
+  background-color: rgba(15, 23, 42, .66) !important;
+  border-color: rgba(148, 163, 184, .28) !important;
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  caret-color: #ffffff;
+}
+
+.premium-operation-form input::placeholder,
+.premium-operation-form textarea::placeholder {
+  color: rgba(226, 232, 240, .52) !important;
+  -webkit-text-fill-color: rgba(226, 232, 240, .52) !important;
+}
+
+.premium-operation-form select option {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+.premium-operation-form input:focus,
+.premium-operation-form select:focus,
+.premium-operation-form textarea:focus {
+  border-color: rgba(96, 165, 250, .70) !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, .22) !important;
+}
+
+.premium-operation-form .tabs button {
+  color: rgba(226, 232, 240, .78) !important;
+  -webkit-text-fill-color: rgba(226, 232, 240, .78) !important;
+}
+
+.premium-operation-form .tabs button.active {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* 2) Make Operations, Reports, Goals match the approved dark premium style */
+#pageOperations,
+#pageReports,
+#pageGoals {
+  color: #f8fafc !important;
+}
+
+#pageOperations .list-card,
+#pageReports .list-card,
+#pageGoals .form-card,
+#pageGoals .list-card {
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(59, 130, 246, .18), transparent 32%),
+    radial-gradient(circle at 8% 100%, rgba(124, 58, 237, .14), transparent 36%),
+    linear-gradient(180deg, rgba(15, 23, 42, .96), rgba(15, 23, 42, .90)) !important;
+  border: 1px solid rgba(148, 163, 184, .16) !important;
+  color: #f8fafc !important;
+  box-shadow: 0 22px 60px rgba(2, 6, 23, .30), inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+
+#pageOperations .list-card h3,
+#pageReports .list-card h3,
+#pageGoals .form-card h3,
+#pageGoals .list-card h3 {
+  color: #ffffff !important;
+  font-size: 22px;
+  letter-spacing: -.45px;
+}
+
+#pageOperations label,
+#pageReports label,
+#pageGoals label,
+#pageOperations .empty,
+#pageReports .empty,
+#pageGoals .empty,
+#pageOperations span,
+#pageReports span,
+#pageGoals span {
+  color: rgba(226, 232, 240, .70) !important;
+}
+
+#pageOperations input,
+#pageOperations select,
+#pageReports input,
+#pageReports select,
+#pageGoals input,
+#pageGoals select {
+  max-width: 100%;
+  min-width: 0;
+  background: rgba(255, 255, 255, .08) !important;
+  border: 1px solid rgba(148, 163, 184, .22) !important;
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  caret-color: #ffffff;
+}
+
+#pageOperations input::placeholder,
+#pageReports input::placeholder,
+#pageGoals input::placeholder {
+  color: rgba(226, 232, 240, .50) !important;
+  -webkit-text-fill-color: rgba(226, 232, 240, .50) !important;
+}
+
+#pageOperations select option,
+#pageReports select option,
+#pageGoals select option {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+#pageOperations input:focus,
+#pageOperations select:focus,
+#pageReports input:focus,
+#pageReports select:focus,
+#pageGoals input:focus,
+#pageGoals select:focus {
+  border-color: rgba(96, 165, 250, .70) !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, .22) !important;
+}
+
+#pageOperations .mini-row,
+#pageOperations .tx-feed-row,
+#pageReports .mini-row,
+#pageReports .report-row,
+#pageGoals .mini-row,
+#pageGoals .debt-card {
+  background: rgba(255,255,255,.07) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  color: #f8fafc !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+#pageOperations .mini-row b,
+#pageReports .mini-row b,
+#pageGoals .mini-row b,
+#pageOperations .tx-feed-main b,
+#pageGoals strong {
+  color: #ffffff !important;
+}
+
+#pageReports .stats div {
+  background: rgba(255,255,255,.08) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  color: #ffffff !important;
+}
+
+#pageReports .stats span {
+  color: rgba(226,232,240,.68) !important;
+}
+
+#pageReports .stats b {
+  color: #ffffff !important;
+}
+
+#pageReports .chart-grid > div {
+  background: rgba(255,255,255,.07) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  color: #ffffff !important;
+}
+
+#pageReports .chart-grid h4 {
+  color: rgba(226,232,240,.84) !important;
+}
+
+#pageReports canvas {
+  background: rgba(15, 23, 42, .42) !important;
+}
+
+#pageReports .export {
+  color: #93c5fd !important;
+  background: rgba(59,130,246,.10);
+  border: 1px solid rgba(147,197,253,.16);
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+
+/* 3) Fix date/month controls that visually overflow their card */
+.grid2,
+.pay-grid,
+.settings-grid {
+  min-width: 0;
+}
+
+.grid2 > *,
+.pay-grid > *,
+.settings-grid > * {
+  min-width: 0;
+}
+
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="number"],
+select {
+  max-width: 100%;
+  min-width: 0;
+}
+
+input[type="date"],
+input[type="month"] {
+  display: block;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  padding-right: 42px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="month"]::-webkit-calendar-picker-indicator {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  opacity: .95;
+  filter: invert(1) brightness(1.8);
+  cursor: pointer;
+}
+
+/* Telegram WebView/mobile: keep forms inside the viewport */
+@media (max-width: 520px) {
+  #pageOperations .list-card,
+  #pageReports .list-card,
+  #pageGoals .form-card,
+  #pageGoals .list-card {
+    padding: 18px;
+    border-radius: 26px;
+  }
+
+  #pageOperations .grid2,
+  #pageReports .grid2,
+  #pageGoals .grid2 {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  input[type="date"],
+  input[type="month"] {
+    font-size: 15px;
+    padding-left: 14px !important;
+    padding-right: 40px !important;
+  }
+}
