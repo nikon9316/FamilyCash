@@ -206,6 +206,7 @@
     fillSelect('newCategoryParent', [...(d.income_categories || []), ...(d.expense_categories || [])].filter((c) => !c.parent_id), (c) => `${c.name} (${c.type})`, (c) => c.id, { label: 'Основная категория', value: '' });
     fillSelect('scheduleWallet', wallets, (w) => `${w.name} — ${fmt(w.balance)} ${w.currency}`, (w) => w.id, { label: 'Кошелек для автосписания', value: '' });
     fillSelect('scheduleCategory', d.expense_categories || [], (c) => c.display_name || c.name, (c) => c.id, { label: 'Категория расхода', value: '' });
+    fillSelect('quickExpenseCategory', d.expense_categories || [], (c) => c.display_name || c.name, (c) => c.id);
     fillSelect('aiRuleCategory', d.expense_categories || [], (c) => c.display_name || c.name, (c) => c.id, { label: 'Категория (для правила)', value: '' });
     syncCurrencyWithWallet();
   }
@@ -458,10 +459,12 @@
   }
 
   function renderQuickExpense(cats) {
-    const chips = $('quickExpenseCategories'); const grid = $('quickExpenseCategoryGrid'); clear(chips); clear(grid);
+    const chips = $('quickExpenseCategories');
+    clear(chips);
     cats.slice(0, 8).forEach((c) => {
-      const chip = textEl('button', c.name, 'chip'); chip.addEventListener('click', () => openQuickExpense(c.id)); chips?.appendChild(chip);
-      const btn = textEl('button', c.name, 'quick-cat'); btn.addEventListener('click', () => { state.quickCategoryId = c.id; $$('.quick-cat').forEach((x) => x.classList.remove('active')); btn.classList.add('active'); }); grid?.appendChild(btn);
+      const chip = textEl('button', c.name, 'chip');
+      chip.addEventListener('click', () => openQuickExpense(c.id));
+      chips?.appendChild(chip);
     });
   }
 
@@ -476,7 +479,7 @@
     await finishMutation(res, 'Перевод сохранен');
   }
   async function saveQuickExpense() {
-    const categoryId = state.quickCategoryId || state.data?.expense_categories?.[0]?.id;
+    const categoryId = val('quickExpenseCategory') || state.quickCategoryId || state.data?.expense_categories?.[0]?.id;
     const walletId = val('quickExpenseWallet');
     const res = await request('/api/transactions', { method: 'POST', idempotent: true, body: { type: 'expense', amount: val('quickExpenseAmount'), currency: walletCurrency(walletId), wallet_id: walletId, category_id: categoryId, comment: val('quickExpenseComment') } });
     closeQuickExpense(); await finishMutation(res, 'Расход сохранен');
@@ -854,7 +857,12 @@
   async function deleteAccount() { await request('/api/account', { method: 'DELETE', idempotent: true, body: { confirm: val('deleteAccountConfirm') } }); toast('Аккаунт удален'); }
   async function deleteFamily() { await request('/api/family', { method: 'DELETE', idempotent: true, body: { confirm: val('deleteFamilyConfirm') } }); toast('Семья удалена'); }
 
-  function openQuickExpense(categoryId = null) { state.quickCategoryId = categoryId; $('quickExpenseSheet')?.classList.remove('hidden'); }
+  function openQuickExpense(categoryId = null) {
+    state.quickCategoryId = categoryId;
+    const select = $('quickExpenseCategory');
+    if (select && categoryId) select.value = String(categoryId);
+    $('quickExpenseSheet')?.classList.remove('hidden');
+  }
   function closeQuickExpense() { $('quickExpenseSheet')?.classList.add('hidden'); state.quickCategoryId = null; }
 
   function showPage(page) {
