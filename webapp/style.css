@@ -150,3 +150,132 @@ body{
 #pageAdd,#pageTransfer{min-height:calc(100vh - 120px)}.premium-operation-form,.premium-transfer-form{margin-top:0;padding:22px;border-radius:30px;background:radial-gradient(circle at 90% 10%,rgba(59,130,246,.24),transparent 34%),linear-gradient(180deg,rgba(15,23,42,.98),rgba(15,23,42,.90))!important;border:1px solid rgba(148,163,184,.16)!important;color:#fff;box-shadow:0 24px 70px rgba(2,6,23,.34)!important}.premium-transfer-form{background:radial-gradient(circle at 85% 10%,rgba(14,165,233,.24),transparent 34%),radial-gradient(circle at 5% 100%,rgba(124,58,237,.20),transparent 38%),linear-gradient(180deg,rgba(15,23,42,.98),rgba(15,23,42,.90))!important}.premium-operation-form h3,.premium-transfer-form h3{color:#fff;font-size:24px;letter-spacing:-.5px;margin-bottom:18px}.premium-transfer-form::before{content:"↔";display:grid;place-items:center;width:58px;height:58px;margin-bottom:16px;border-radius:20px;background:linear-gradient(135deg,#06b6d4,#4f46e5 60%,#7c3aed);box-shadow:0 18px 40px rgba(79,70,229,.35);font-size:26px}.premium-operation-form label,.premium-transfer-form label{color:rgba(226,232,240,.68)}.premium-operation-form input,.premium-operation-form select,.premium-transfer-form input,.premium-transfer-form select{background:rgba(255,255,255,.08)!important;border:1px solid rgba(148,163,184,.18)!important;color:#fff!important}.premium-operation-form input::placeholder,.premium-transfer-form input::placeholder{color:rgba(226,232,240,.38)}.premium-operation-form .tabs{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10)}.premium-operation-form .tabs button{color:rgba(226,232,240,.72);background:transparent}.premium-operation-form .tabs button.active{color:#fff;background:linear-gradient(135deg,#3b82f6,#7c3aed)}.premium-operation-form .submit,.premium-transfer-form .submit{height:56px;border-radius:20px;background:linear-gradient(135deg,#3b82f6,#4f46e5 55%,#7c3aed)!important;box-shadow:0 18px 40px rgba(79,70,229,.35);color:#fff!important}
 
 @media(max-width:520px){.app{padding:12px 12px 118px}.header h1{font-size:20px}.balance-card{padding:22px 18px;border-radius:26px}.balance-card h2{font-size:36px}.balance-card .stats{grid-template-columns:repeat(3,1fr);gap:9px}.balance-card .stats div{min-height:72px;padding:11px 10px;border-radius:17px}.balance-card .stats b{font-size:14px}.quick-panel,.dashboard-card,.recent-card{padding:18px;border-radius:26px}.quick-actions-grid{grid-template-columns:repeat(3,1fr);gap:8px}.quick-action-tile{height:68px;padding:11px;border-radius:19px}.quick-chips{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-card h3{font-size:20px;margin-bottom:14px}.kpi-grid{grid-template-columns:1fr;gap:9px}.kpi-grid div{min-height:auto;padding:12px 13px}.dashboard-grid{grid-template-columns:1fr;gap:10px}.dashboard-grid>div{min-height:170px;border-radius:20px}.dashboard-grid canvas{min-height:140px;max-height:150px}.tx-feed-row{grid-template-columns:46px 1fr auto;gap:10px;padding:12px;border-radius:20px}.tx-feed-icon{width:42px;height:42px;font-size:20px}.tx-feed-right{min-width:96px}.tx-feed-right strong{font-size:14px}.tx-feed-actions .tiny{font-size:10px;padding:4px 7px}.premium-operation-form,.premium-transfer-form{padding:20px;border-radius:28px}.bottom-nav{height:74px;padding-right:82px}.bottom-nav button{min-width:60px}.fab{width:64px;height:64px;bottom:calc(48px + env(safe-area-inset-bottom,0px))}}
+
+
+/* =========================================================
+   V2 FIXES: Transfer readability + Quick Expense dropdown
+   Safe frontend-only patch
+   ========================================================= */
+
+/* Fix unreadable text in dark transfer screen */
+.premium-transfer-form,
+.premium-transfer-form h3,
+.premium-transfer-form label,
+.premium-transfer-form input,
+.premium-transfer-form select,
+.premium-transfer-form option,
+.premium-transfer-form textarea {
+  color: #f8fafc !important;
+}
+
+.premium-transfer-form input,
+.premium-transfer-form select,
+.premium-transfer-form textarea {
+  background-color: rgba(15, 23, 42, .66) !important;
+  border-color: rgba(148, 163, 184, .28) !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  caret-color: #ffffff;
+}
+
+.premium-transfer-form input::placeholder {
+  color: rgba(226, 232, 240, .52) !important;
+  -webkit-text-fill-color: rgba(226, 232, 240, .52) !important;
+}
+
+.premium-transfer-form select option {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+.premium-transfer-form input:focus,
+.premium-transfer-form select:focus {
+  border-color: rgba(96, 165, 250, .70) !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, .22) !important;
+}
+
+/* Premium quick expense sheet */
+#quickExpenseSheet .sheet-backdrop {
+  background: rgba(2, 6, 23, .68) !important;
+  backdrop-filter: blur(8px);
+}
+
+#quickExpenseSheet .sheet-card {
+  background:
+    radial-gradient(circle at 88% 10%, rgba(59, 130, 246, .20), transparent 32%),
+    radial-gradient(circle at 10% 100%, rgba(124, 58, 237, .18), transparent 34%),
+    linear-gradient(180deg, rgba(15, 23, 42, .98), rgba(15, 23, 42, .94)) !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(148, 163, 184, .18);
+  border-radius: 30px 30px 0 0;
+  box-shadow: 0 -24px 70px rgba(2, 6, 23, .48);
+}
+
+#quickExpenseSheet .sheet-handle {
+  background: rgba(203, 213, 225, .55) !important;
+}
+
+#quickExpenseSheet .subtitle {
+  color: rgba(226, 232, 240, .58) !important;
+}
+
+#quickExpenseSheet h3,
+#quickExpenseSheet label {
+  color: #f8fafc !important;
+}
+
+#quickExpenseSheet label {
+  color: rgba(226, 232, 240, .70) !important;
+}
+
+#quickExpenseSheet input,
+#quickExpenseSheet select {
+  background: rgba(255, 255, 255, .08) !important;
+  border: 1px solid rgba(148, 163, 184, .22) !important;
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+}
+
+#quickExpenseSheet input::placeholder {
+  color: rgba(226, 232, 240, .48) !important;
+  -webkit-text-fill-color: rgba(226, 232, 240, .48) !important;
+}
+
+#quickExpenseSheet select option {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+#quickExpenseSheet input:focus,
+#quickExpenseSheet select:focus {
+  border-color: rgba(96, 165, 250, .70) !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, .22) !important;
+}
+
+#quickExpenseSheet .icon-btn {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 14px;
+  background: rgba(59, 130, 246, .16) !important;
+  color: #bfdbfe !important;
+  border: 1px solid rgba(147, 197, 253, .14);
+}
+
+#quickExpenseSheet .submit,
+#saveQuickExpenseBtn {
+  height: 56px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #3b82f6, #4f46e5 55%, #7c3aed) !important;
+  color: #fff !important;
+  box-shadow: 0 18px 40px rgba(79, 70, 229, .35);
+}
+
+/* Since quick expense categories moved to dropdown, hide old category grid if cached HTML still exists */
+#quickExpenseCategoryGrid {
+  display: none !important;
+}
+
+/* Improve quick category dropdown tap target */
+#quickExpenseCategory {
+  min-height: 52px;
+}
