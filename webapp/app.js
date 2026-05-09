@@ -224,15 +224,61 @@
     return `${sign} ${fmt(t.amount)} ${t.currency} — ${t.category_name || t.type} / ${t.wallet_name || ''}`;
   }
 
+  function txIcon(t) {
+    const name = String(t.category_name || t.type || '').toLowerCase();
+    if (t.type === 'income') return '💳';
+    if (t.type === 'transfer_in' || t.type === 'transfer_out') return '↔️';
+    if (name.includes('продукт')) return '🛒';
+    if (name.includes('транспорт')) return '🚙';
+    if (name.includes('дом') || name.includes('кварт')) return '🏠';
+    if (name.includes('дет')) return '👶';
+    if (name.includes('кафе') || name.includes('достав')) return '☕';
+    if (name.includes('долг')) return '💳';
+    return t.type === 'expense' ? '💸' : '💰';
+  }
+
   function txRow(t) {
-    const row = document.createElement('div'); row.className = 'tx-row';
-    row.append(textEl('b', txLabel(t)), textEl('small', `${t.created_at || ''} ${t.comment ? ' · ' + t.comment : ''}`));
-    const actions = document.createElement('div'); actions.className = 'row-actions';
-    const hist = textEl('button', 'История', 'tiny'); hist.addEventListener('click', () => showOperationHistory(t.id)); actions.appendChild(hist);
+    const row = document.createElement('div');
+    row.className = `tx-feed-row ${t.type || ''}`;
+
+    const icon = document.createElement('div');
+    icon.className = 'tx-feed-icon';
+    icon.textContent = txIcon(t);
+
+    const main = document.createElement('div');
+    main.className = 'tx-feed-main';
+
+    const title = document.createElement('b');
+    title.textContent = t.category_name || t.type || 'Операция';
+
+    const meta = document.createElement('span');
+    meta.textContent = `${t.wallet_name || 'Кошелек'} · ${t.created_at || ''}${t.comment ? ' · ' + t.comment : ''}`;
+    main.append(title, meta);
+
+    const right = document.createElement('div');
+    right.className = 'tx-feed-right';
+
+    const amount = document.createElement('strong');
+    const positive = ['income', 'transfer_in'].includes(t.type);
+    amount.className = positive ? 'income' : 'expense';
+    amount.textContent = `${positive ? '+' : '-'}${fmt(t.amount)} ${t.currency}`;
+
+    const actions = document.createElement('div');
+    actions.className = 'tx-feed-actions';
+
+    const hist = textEl('button', 'История', 'tiny');
+    hist.addEventListener('click', () => showOperationHistory(t.id));
+    actions.appendChild(hist);
+
     if (['income', 'expense'].includes(t.type)) {
-      const del = textEl('button', 'Удалить', 'tiny danger'); del.addEventListener('click', () => deleteTransaction(t.id)); actions.appendChild(del);
+      const del = textEl('button', '×', 'tiny danger');
+      del.title = 'Удалить';
+      del.addEventListener('click', () => deleteTransaction(t.id));
+      actions.appendChild(del);
     }
-    row.appendChild(actions);
+
+    right.append(amount, actions);
+    row.append(icon, main, right);
     return row;
   }
 
@@ -822,13 +868,21 @@
     if (page === 'money') loadMonthEndMoney().catch((e) => err(e.message));
   }
 
+  function setTransactionType(type) {
+    state.txType = type === 'income' ? 'income' : 'expense';
+    $('incomeBtn')?.classList.toggle('active', state.txType === 'income');
+    $('expenseBtn')?.classList.toggle('active', state.txType === 'expense');
+    renderSelects(state.data || {});
+  }
+
   function bind(id, event, fn) { const el = $(id); if (el) el.addEventListener(event, fn); }
 
   function bindEvents() {
     tg?.ready?.(); tg?.expand?.();
     $$('[data-page]').forEach((b) => b.addEventListener('click', () => showPage(b.dataset.page)));
-    bind('incomeBtn', 'click', () => { state.txType = 'income'; $('incomeBtn')?.classList.add('active'); $('expenseBtn')?.classList.remove('active'); renderSelects(state.data || {}); });
-    bind('expenseBtn', 'click', () => { state.txType = 'expense'; $('expenseBtn')?.classList.add('active'); $('incomeBtn')?.classList.remove('active'); renderSelects(state.data || {}); });
+    bind('incomeBtn', 'click', () => setTransactionType('income'));
+    bind('expenseBtn', 'click', () => setTransactionType('expense'));
+    bind('quickIncomeBtn', 'click', () => setTransactionType('income'));
     bind('wallet', 'change', () => syncCurrencyWithWallet());
     bind('saveTransactionBtn', 'click', () => withBusy('saveTransactionBtn', saveTransaction));
     bind('saveTransferBtn', 'click', () => withBusy('saveTransferBtn', saveTransfer));
